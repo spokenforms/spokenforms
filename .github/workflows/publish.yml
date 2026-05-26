@@ -1,12 +1,60 @@
 name: Publish
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type "publish-to-pypi" to publish manually.
+        required: true
+        type: string
+
+permissions:
+  contents: read
 
 jobs:
-  publish:
+  build:
+    name: Build distributions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@v7
-      - run: uv build
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+      - name: Run release checks
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run mypy src tests
+          uv run pytest
+      - name: Build distributions
+        run: uv build
+      - name: Upload distributions
+        uses: actions/upload-artifact@v5
+        with:
+          name: python-package-distributions
+          path: dist/
+          if-no-files-found: error
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.confirm == 'publish-to-pypi'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/spokenforms
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v6
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
