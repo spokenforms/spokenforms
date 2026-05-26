@@ -56,13 +56,43 @@ canonical structured value
   -> JSONL / CSV / Parquet dataset
 ```
 
-SpokenForms is built around the LingVarBench-style three-stage pipeline:
+SpokenForms is built around three-stage pipeline:
 
 | Stage | Job |
 | --- | --- |
 | Value Generator | Creates canonical values for an entity schema. |
 | Transcript Generator | Applies reusable and entity-specific spoken patterns. |
 | Consistency Checker | Keeps only transcripts recoverable to the intended value. |
+
+## Research Reference
+
+SpokenForms is inspired by the synthetic data generation method described in
+[LingVarBench: Benchmarking LLMs on Entity Recognitions and Linguistic
+Verbalization Patterns in Phone-Call Transcripts](https://aclanthology.org/2026.eacl-industry.42/)
+(Mohammadi et al., EACL Industry Track 2026).
+
+The paper introduces a benchmark and synthetic generation pipeline for structured
+entity extraction in phone-call transcripts using LLM-sampled entity values,
+curated linguistic verbalization patterns, and a value-transcript consistency
+filter. SpokenForms implements that style of direct-answer value generation,
+pattern-controlled transcript generation, and consistency validation for package
+and CLI workflows.
+
+Citation:
+
+```bibtex
+@inproceedings{mohammadi-etal-2026-lingvarbench,
+  title = "{L}ing{V}ar{B}ench: Benchmarking {LLM}s on Entity Recognitions and Linguistic Verbalization Patterns in Phone-Call Transcripts",
+  author = "Mohammadi, Seyedali and Paldhe, Manas and Chhabra, Amit and Son, Youngseo and Seshagiri, Vishal",
+  booktitle = "Proceedings of the 19th Conference of the European Chapter of the Association for Computational Linguistics (Volume 5: Industry Track)",
+  year = "2026",
+  address = "Rabat, Morocco",
+  publisher = "Association for Computational Linguistics",
+  url = "https://aclanthology.org/2026.eacl-industry.42/",
+  doi = "10.18653/v1/2026.eacl-industry.42",
+  pages = "545--561"
+}
+```
 
 ## Install
 
