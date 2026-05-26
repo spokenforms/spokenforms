@@ -1,0 +1,31 @@
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: local
+    hooks:
+      - id: detect-secrets
+        name: detect secrets
+        entry: uv run detect-secrets-hook
+        language: system
+        types: [text]
+        exclude: ^(\.env\.example|uv\.lock)$
+
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --force-exclude
+        language: system
+        types_or: [python, pyi]
+
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --check --force-exclude
+        language: system
+        types_or: [python, pyi]
+
+      - id: mypy
+        name: mypy
+        entry: uv run mypy src tests
+        language: system
+        pass_filenames: false
+        types_or: [python, pyi]
