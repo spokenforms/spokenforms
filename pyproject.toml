@@ -1,0 +1,120 @@
+[project]
+name = "spokenforms"
+version = "0.1.0"
+description = "Generate synthetic spoken transcript variants for structured values and alphanumeric sequences."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "Aashraya", email = "aashraya@observe.ai" },
+]
+keywords = [
+  "synthetic-data",
+  "voice-ai",
+  "transcripts",
+  "entity-extraction",
+  "llm",
+  "cli",
+  "typer",
+  "pydantic",
+  "alphanumeric",
+  "spoken-forms",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = [
+  "typer>=0.12.0",
+  "rich>=13.7.0",
+  "pydantic>=2.8.0",
+  "pydantic-settings>=2.4.0",
+  "pyyaml>=6.0.2",
+  "orjson>=3.10.0",
+  "tenacity>=8.5.0",
+  "openai>=1.40.0",
+  "pandas>=2.2.0",
+  "pyarrow>=16.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0",
+  "pytest-cov>=5.0.0",
+  "pytest-asyncio>=0.23.0",
+  "pytest-mock>=3.14.0",
+  "hypothesis>=6.100.0",
+  "ruff>=0.6.0",
+  "mypy>=1.11.0",
+  "types-PyYAML>=6.0.12",
+]
+dspy = [
+  "dspy-ai>=2.4.0",
+]
+
+[project.scripts]
+spokenforms = "spokenforms.cli:app"
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spokenforms"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "TCH", "ANN", "ARG", "PTH", "RUF"]
+ignore = ["ANN401", "TC001", "TC002", "TC003", "B008"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["pandas.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+  "--strict-markers",
+  "--strict-config",
+  "--cov=spokenforms",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+  "--cov-fail-under=90",
+]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["spokenforms"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

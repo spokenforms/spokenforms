@@ -1,0 +1,5 @@
+patterns:
+  - direct_and_simple
+  - digit_by_digit
+  - ssn_grouped_3_2_4
+  - card_grouped_4_4_4_4

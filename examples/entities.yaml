@@ -1,0 +1,5 @@
+entities:
+  - ssn
+  - credit_card_number
+  - confirmation_code
+  - zip_code

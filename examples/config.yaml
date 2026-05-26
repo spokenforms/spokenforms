@@ -1,0 +1,10 @@
+project:
+  name: spokenforms_example
+  output_dir: runs/example
+  random_seed: 42
+llm:
+  provider: mock
+  model: mock
+generation:
+  num_values: 3
+  target_per_pattern: 2
